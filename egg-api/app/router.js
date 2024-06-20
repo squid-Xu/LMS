@@ -13,5 +13,9 @@ module.exports = app => {
   router.post('/admin/login', controller.admin.login);
   router.get('/admin/info', controller.admin.info);
   // 图书分类
-  router.post('/class_info/add', controller.class_info.add);
+  router.post('/class_info/add', controller.classInfo.add);
+  router.put('/class_info/edit', controller.classInfo.edit);
+  router.delete('/class_info/delete/:id', controller.classInfo.delete);
+  router.get('/class_info/list', controller.classInfo.list);
+  router.get('/class_info/page', controller.classInfo.page);
 };
