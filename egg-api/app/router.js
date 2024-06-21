@@ -18,4 +18,10 @@ module.exports = app => {
   router.delete('/class_info/delete/:id', controller.classInfo.delete);
   router.get('/class_info/list', controller.classInfo.list);
   router.get('/class_info/page', controller.classInfo.page);
+
+  // 图书管理
+  router.post('/book_info/add', controller.bookInfo.add);
+  router.put('/book_info/edit', controller.bookInfo.edit);
+  router.delete('/book_info/delete/:id', controller.bookInfo.delete);
+  router.get('/book_info/list', controller.bookInfo.list);
 };

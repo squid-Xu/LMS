@@ -34,3 +34,12 @@ export function getBookClassApi(params: bookClass.GetTableRequestData) {
     params
   })
 }
+
+/** 查全部分类 */
+export function getAllBookClassApi() {
+  // return request({
+  return request<bookClass.GetClassResponse>({
+    url: "/class_info/page",
+    method: "get"
+  })
+}

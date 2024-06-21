@@ -3,9 +3,10 @@ import { reactive, ref, watch } from "vue"
 import { createBookClassApi, deleteBookClassApi, updateBookClassApi, getBookClassApi } from "@/api/book_class"
 import { type CreateOrUpdateTableRequestData, type GetTableData } from "@/api/book_class/types/book_class"
 import { type FormInstance, type FormRules, ElMessage, ElMessageBox } from "element-plus"
-import { Search, Refresh, CirclePlus, Delete, Download, RefreshRight } from "@element-plus/icons-vue"
+import { Search, Refresh, CirclePlus, RefreshRight } from "@element-plus/icons-vue"
 import { usePagination } from "@/hooks/usePagination"
 import { cloneDeep } from "lodash-es"
+import { formatDateTime } from "@/utils"
 
 defineOptions({
   // 命名当前组件
@@ -18,17 +19,19 @@ const { paginationData, handleCurrentChange, handleSizeChange } = usePagination(
 //#region 增
 const DEFAULT_FORM_DATA: CreateOrUpdateTableRequestData = {
   class_id: undefined,
-  class_name: ""
+  class_name: "",
+  sort: 1000
 }
 const dialogVisible = ref<boolean>(false)
 const formRef = ref<FormInstance | null>(null)
 const formData = ref<CreateOrUpdateTableRequestData>(cloneDeep(DEFAULT_FORM_DATA))
 const formRules: FormRules<CreateOrUpdateTableRequestData> = {
-  class_name: [{ required: true, trigger: "blur", message: "请输入分类名称" }]
+  class_name: [{ required: true, trigger: "blur", message: "请输入分类名称" }],
+  sort: [{ required: true, trigger: "blur", message: "请输入排序" }]
 }
 const handleCreateOrUpdate = () => {
   formRef.value?.validate((valid: boolean, fields) => {
-    if (!valid) return console.error("表单校验不通过", fields)
+    if (!valid) return console.log("表单校验不通过", fields)
     loading.value = true
     const api = formData.value.class_id === undefined ? createBookClassApi : updateBookClassApi
     api(formData.value)
@@ -114,9 +117,6 @@ watch([() => paginationData.currentPage, () => paginationData.pageSize], getTabl
         <el-form-item prop="class_name" label="分类名称">
           <el-input v-model="searchData.class_name" placeholder="请输入" />
         </el-form-item>
-        <!-- <el-form-item prop="phone" label="手机号">
-          <el-input v-model="searchData.phone" placeholder="请输入" />
-        </el-form-item> -->
         <el-form-item>
           <el-button type="primary" :icon="Search" @click="handleSearch">查询</el-button>
           <el-button :icon="Refresh" @click="resetSearch">重置</el-button>
@@ -127,12 +127,8 @@ watch([() => paginationData.currentPage, () => paginationData.pageSize], getTabl
       <div class="toolbar-wrapper">
         <div>
           <el-button type="primary" :icon="CirclePlus" @click="dialogVisible = true">新增分类</el-button>
-          <!-- <el-button type="danger" :icon="Delete">批量删除</el-button> -->
         </div>
         <div>
-          <!-- <el-tooltip content="下载">
-            <el-button type="primary" :icon="Download" circle />
-          </el-tooltip> -->
           <el-tooltip content="刷新当前页">
             <el-button type="primary" :icon="RefreshRight" circle @click="getTableData" />
           </el-tooltip>
@@ -140,10 +136,18 @@ watch([() => paginationData.currentPage, () => paginationData.pageSize], getTabl
       </div>
       <div class="table-wrapper">
         <el-table :data="tableData">
-          <!-- <el-table-column type="selection" width="50" align="center" /> -->
           <el-table-column prop="class_name" label="用户名" align="center" />
-          <el-table-column prop="create_time" label="创建时间" align="center" />
-          <el-table-column prop="update_time" label="更新时间" align="center" />
+          <el-table-column prop="sort" label="排序" align="center" />
+          <el-table-column prop="create_time" label="创建时间" align="center">
+            <template #default="scope">
+              {{ formatDateTime(scope.row.create_time) }}
+            </template>
+          </el-table-column>
+          <el-table-column prop="update_time" label="更新时间" align="center">
+            <template #default="scope">
+              {{ formatDateTime(scope.row.update_time) }}
+            </template>
+          </el-table-column>
           <el-table-column fixed="right" label="操作" width="150" align="center">
             <template #default="scope">
               <el-button type="primary" text bg size="small" @click="handleUpdate(scope.row)">修改</el-button>
@@ -176,9 +180,9 @@ watch([() => paginationData.currentPage, () => paginationData.pageSize], getTabl
         <el-form-item prop="class_name" label="分类名称">
           <el-input v-model="formData.class_name" placeholder="请输入" />
         </el-form-item>
-        <!-- <el-form-item prop="password" label="密码" v-if="formData.class_id === undefined">
-          <el-input v-model="formData.password" placeholder="请输入" />
-        </el-form-item> -->
+        <el-form-item prop="sort" label="排序">
+          <el-input-number v-model="formData.sort" :min="1" :max="1000" placeholder="请输入" />
+        </el-form-item>
       </el-form>
       <template #footer>
         <el-button @click="dialogVisible = false">取消</el-button>

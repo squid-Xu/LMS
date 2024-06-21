@@ -37,7 +37,7 @@ function createService() {
       }
       switch (code) {
         case 200:
-          // 本系统采用 code === 0 来表示没有业务错误
+          // 本系统采用 code === 200 来表示没有业务错误
           return apiData
         case 401:
           // Token 过期时

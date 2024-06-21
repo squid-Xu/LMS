@@ -1,6 +1,7 @@
 export interface CreateOrUpdateTableRequestData {
   class_id?: string
   class_name: string
+  sort: number
 }
 
 export interface GetTableRequestData {
@@ -15,6 +16,7 @@ export interface GetTableRequestData {
 export interface GetTableData {
   class_id: string
   class_name: string
+  sort: number
   create_time: string
   update_time: string
 }
@@ -23,3 +25,5 @@ export type GetTableResponseData = ApiResponseData<{
   list: GetTableData[]
   total: number
 }>
+
+export type GetClassResponse = ApiResponseData<GetTableData[]>
