@@ -22,6 +22,7 @@ const addEdit = ref()
 
 const addBook = () => {
   addEdit.value.open()
+  addEdit.value.isDetail = false
 }
 //#endregion
 
@@ -43,6 +44,11 @@ const handleDelete = (row: GetTableData) => {
 //#region 改
 const handleUpdate = (row: GetTableData) => {
   addEdit.value.open(row)
+  addEdit.value.isDetail = false
+}
+const handleDetail = (row: GetTableData) => {
+  addEdit.value.open(row)
+  addEdit.value.isDetail = true
 }
 //#endregion
 
@@ -50,14 +56,20 @@ const handleUpdate = (row: GetTableData) => {
 const tableData = ref<GetTableData[]>([])
 const searchFormRef = ref<FormInstance | null>(null)
 const searchData = reactive({
-  book_name: ""
+  book_name: "",
+  author: "",
+  publish: "",
+  ISBN: ""
 })
 const getTableData = () => {
   loading.value = true
   getBookManagementApi({
     pageNum: paginationData.currentPage,
     pageSize: paginationData.pageSize,
-    book_name: searchData.book_name || undefined
+    book_name: searchData.book_name || undefined,
+    author: searchData.author || undefined,
+    publish: searchData.publish || undefined,
+    ISBN: searchData.ISBN || undefined
   })
     .then(({ data }) => {
       paginationData.total = data.total
@@ -90,9 +102,15 @@ watch([() => paginationData.currentPage, () => paginationData.pageSize], getTabl
         <el-form-item prop="book_name" label="图书名称">
           <el-input v-model="searchData.book_name" placeholder="请输入" />
         </el-form-item>
-        <!-- <el-form-item prop="phone" label="手机号">
-          <el-input v-model="searchData.phone" placeholder="请输入" />
-        </el-form-item> -->
+        <el-form-item prop="author" label="作者">
+          <el-input v-model="searchData.author" placeholder="请输入" />
+        </el-form-item>
+        <el-form-item prop="publish" label="出版社">
+          <el-input v-model="searchData.publish" placeholder="请输入" />
+        </el-form-item>
+        <el-form-item prop="ISBN" label="ISBN">
+          <el-input v-model="searchData.ISBN" placeholder="请输入" />
+        </el-form-item>
         <el-form-item>
           <el-button type="primary" :icon="Search" @click="handleSearch">查询</el-button>
           <el-button :icon="Refresh" @click="resetSearch">重置</el-button>
@@ -112,25 +130,25 @@ watch([() => paginationData.currentPage, () => paginationData.pageSize], getTabl
       </div>
       <div class="table-wrapper">
         <el-table :data="tableData">
-          <el-table-column prop="book_name" label="名称" align="center" />
-          <el-table-column prop="author" label="作者" align="center" />
-          <el-table-column prop="publish" label="出版社" align="center" />
-          <el-table-column prop="ISBN" label="ISBN" align="center" />
-          <el-table-column prop="price" label="价格" align="center" />
-          <el-table-column prop="number" label="数量" align="center" />
-          <el-table-column prop="create_time" label="创建时间" align="center">
+          <el-table-column prop="book_name" fixed label="名称" width="150" />
+          <el-table-column prop="author" label="作者" width="150" />
+          <el-table-column prop="publish" label="出版社" width="150" />
+          <el-table-column prop="ISBN" label="ISBN" width="150" />
+          <el-table-column prop="price" label="价格" width="150" />
+          <el-table-column prop="number" label="数量" width="150" />
+          <el-table-column prop="create_time" label="创建时间" width="200">
             <template #default="scope">
               {{ formatDateTime(scope.row.create_time) }}
             </template>
           </el-table-column>
-          <el-table-column prop="update_time" label="更新时间" align="center">
+          <el-table-column prop="update_time" label="更新时间" width="200">
             <template #default="scope">
               {{ formatDateTime(scope.row.update_time) }}
             </template>
           </el-table-column>
-          <el-table-column fixed="right" label="操作" width="150" align="center">
+          <el-table-column fixed="right" label="操作" width="200" align="center">
             <template #default="scope">
-              <el-button type="primary" text bg size="small" @click="handleUpdate(scope.row)">详情</el-button>
+              <el-button type="primary" text bg size="small" @click="handleDetail(scope.row)">详情</el-button>
               <el-button type="primary" text bg size="small" @click="handleUpdate(scope.row)">修改</el-button>
               <el-button type="danger" text bg size="small" @click="handleDelete(scope.row)">删除</el-button>
             </template>

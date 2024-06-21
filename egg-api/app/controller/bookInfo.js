@@ -9,7 +9,7 @@ const addClass = {
   ISBN: 'string',
   introduction: 'string?',
   language: 'string?',
-  price: 'int',
+  price: 'number',
   pub_date: 'string?',
   class_id: 'int',
   number: 'int',

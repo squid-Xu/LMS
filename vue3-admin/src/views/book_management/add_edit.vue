@@ -1,12 +1,12 @@
 <template>
   <el-drawer
     v-model="drawer"
-    size="40%"
+    size="45%"
     @closed="resetForm"
-    :title="formData.book_id === undefined ? '新增图书' : '修改图书'"
+    :title="isDetail ? '查看图书' : formData.book_id === undefined ? '新增图书' : '修改图书'"
   >
     <template #default>
-      <el-form ref="formRef" :model="formData" :rules="formRules" label-width="120px">
+      <el-form ref="formRef" :model="formData" :disabled="isDetail" :rules="formRules" label-width="100px">
         <el-form-item prop="book_name" label="图书名称">
           <el-input v-model="formData.book_name" placeholder="请输入" />
         </el-form-item>
@@ -51,7 +51,7 @@
     <template #footer>
       <div style="flex: auto">
         <el-button @click="cancelClick">取消</el-button>
-        <el-button type="primary" :loading="loading" @click="confirmClick">确定</el-button>
+        <el-button type="primary" :loading="loading" :disabled="isDetail" @click="confirmClick">确定</el-button>
       </div>
     </template>
   </el-drawer>
@@ -106,6 +106,8 @@ const formRef = ref<FormInstance | null>(null)
 
 const loading = ref<boolean>(false)
 
+const isDetail = ref<boolean>(false)
+
 const open = (row: GetTableData) => {
   getAllClass()
   drawer.value = true
@@ -139,6 +141,7 @@ const resetForm = () => {
 
 const emits = defineEmits(["ok"])
 defineExpose({
-  open
+  open,
+  isDetail
 })
 </script>

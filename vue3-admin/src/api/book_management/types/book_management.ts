@@ -19,6 +19,12 @@ export interface GetTableRequestData {
   pageSize: number
   /** 查询参数：用户名 */
   book_name?: string
+
+  author?: string
+
+  publish?: string
+
+  ISBN?: string
 }
 
 export interface GetTableData {

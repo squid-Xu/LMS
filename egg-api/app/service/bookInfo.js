@@ -18,12 +18,13 @@ class bookInfoService extends Service {
   // 编辑
   async edit(data) {
     const accountInfo = await this.app.mysql.query(
-      `select * from book_info where book_name = ${data.book_name} AND book_id != ${data.book_id}`);
+      `select * from book_info where book_name = "${data.book_name}" AND book_id != ${data.book_id}`);
     if (accountInfo.length !== 0) {
       this.ctx.sendError('图书已存在');
       return false;
     }
-    const result = await this.app.mysql.update('book_info', { book_name: data.book_name }, { where: { book_id: data.book_id } });
+    const { book_id, create_time, update_time, ...row } = data;
+    const result = await this.app.mysql.update('book_info', row, { where: { book_id } });
     if (result.affectedRows === 1) {
       return result;
     }
@@ -41,7 +42,12 @@ class bookInfoService extends Service {
   }
   // 获取列表
   async list(data) {
-    const where = `${data.book_name ? `where book_name like '%${data.book_name}%'` : ''}`;
+    // const where = `${data.book_name ? `where book_name like '%${data.book_name}%'` : ''}`;
+    const where = `where book_name like '%${data.book_name || ''}%' 
+    and author like '%${data.author || ''}%'
+    and publish like '%${data.publish || ''}%'
+    and ISBN like '%${data.ISBN || ''}%'`;
+    console.log(where);
     const list = await this.app.mysql.query(`select * from book_info ${where}  limit ${(data.pageNum - 1) * data.pageSize},${data.pageSize}`);
     const total = await this.app.mysql.query(`select count(*) as count from book_info ${where}`); // 数量
     return { list, total: total[0].count };
