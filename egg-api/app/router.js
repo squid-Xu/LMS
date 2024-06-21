@@ -24,4 +24,10 @@ module.exports = app => {
   router.put('/book_info/edit', controller.bookInfo.edit);
   router.delete('/book_info/delete/:id', controller.bookInfo.delete);
   router.get('/book_info/list', controller.bookInfo.list);
+
+  // 会员管理
+  router.post('/reader_info/add', controller.readerInfo.add);
+  router.put('/reader_info/edit', controller.readerInfo.edit);
+  router.delete('/reader_info/delete/:id', controller.readerInfo.delete);
+  router.get('/reader_info/list', controller.readerInfo.list);
 };

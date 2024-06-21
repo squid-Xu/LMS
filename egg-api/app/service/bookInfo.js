@@ -47,7 +47,6 @@ class bookInfoService extends Service {
     and author like '%${data.author || ''}%'
     and publish like '%${data.publish || ''}%'
     and ISBN like '%${data.ISBN || ''}%'`;
-    console.log(where);
     const list = await this.app.mysql.query(`select * from book_info ${where}  limit ${(data.pageNum - 1) * data.pageSize},${data.pageSize}`);
     const total = await this.app.mysql.query(`select count(*) as count from book_info ${where}`); // 数量
     return { list, total: total[0].count };
