@@ -42,8 +42,7 @@ class readerInfoService extends Service {
   }
   // 获取列表
   async list(data) {
-    const where = `where name like '%${data.name || ''}%' 
-    and phone like '%${data.phone || ''}%'`;
+    const where = `where name like '%${data.name || ''}%' and phone like '%${data.phone || ''}%'`;
     const list = await this.app.mysql.query(`select * from reader_info ${where}  limit ${(data.pageNum - 1) * data.pageSize},${data.pageSize}`);
     const total = await this.app.mysql.query(`select count(*) as count from reader_info ${where}`); // 数量
     return { list, total: total[0].count };

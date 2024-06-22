@@ -130,18 +130,18 @@ watch([() => paginationData.currentPage, () => paginationData.pageSize], getTabl
       </div>
       <div class="table-wrapper">
         <el-table :data="tableData">
-          <el-table-column prop="book_name" fixed label="名称" width="150" />
-          <el-table-column prop="author" label="作者" width="150" />
-          <el-table-column prop="publish" label="出版社" width="150" />
-          <el-table-column prop="ISBN" label="ISBN" width="150" />
+          <el-table-column prop="book_name" fixed label="名称" show-overflow-tooltip width="250" />
+          <el-table-column prop="author" label="作者" show-overflow-tooltip width="250" />
+          <el-table-column prop="publish" label="出版社" show-overflow-tooltip width="250" />
+          <el-table-column prop="ISBN" label="ISBN" width="200" />
           <el-table-column prop="price" label="价格" width="150" />
           <el-table-column prop="number" label="数量" width="150" />
-          <el-table-column prop="create_time" label="创建时间" width="200">
+          <el-table-column prop="create_time" label="创建时间" min-width="200">
             <template #default="scope">
               {{ formatDateTime(scope.row.create_time) }}
             </template>
           </el-table-column>
-          <el-table-column prop="update_time" label="更新时间" width="200">
+          <el-table-column prop="update_time" label="更新时间" min-width="200">
             <template #default="scope">
               {{ formatDateTime(scope.row.update_time) }}
             </template>

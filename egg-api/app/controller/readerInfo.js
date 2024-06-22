@@ -4,10 +4,10 @@ const { Controller } = require('egg');
 const addClass = {
   reader_id: 'int?',
   name: 'string',
+  phone: 'string',
   sex: 'int',
   birth: 'string?',
   address: 'string?',
-  phone: 'string',
   expire: 'string',
 };
 

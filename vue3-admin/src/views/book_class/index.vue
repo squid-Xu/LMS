@@ -136,14 +136,14 @@ watch([() => paginationData.currentPage, () => paginationData.pageSize], getTabl
       </div>
       <div class="table-wrapper">
         <el-table :data="tableData">
-          <el-table-column prop="class_name" label="用户名" align="center" />
-          <el-table-column prop="sort" label="排序" align="center" />
-          <el-table-column prop="create_time" label="创建时间" align="center">
+          <el-table-column prop="class_name" label="用户名" />
+          <el-table-column prop="sort" label="排序" />
+          <el-table-column prop="create_time" label="创建时间">
             <template #default="scope">
               {{ formatDateTime(scope.row.create_time) }}
             </template>
           </el-table-column>
-          <el-table-column prop="update_time" label="更新时间" align="center">
+          <el-table-column prop="update_time" label="更新时间">
             <template #default="scope">
               {{ formatDateTime(scope.row.update_time) }}
             </template>
@@ -178,7 +178,7 @@ watch([() => paginationData.currentPage, () => paginationData.pageSize], getTabl
     >
       <el-form ref="formRef" :model="formData" :rules="formRules" label-width="100px" label-position="left">
         <el-form-item prop="class_name" label="分类名称">
-          <el-input v-model="formData.class_name" placeholder="请输入" />
+          <el-input v-model="formData.class_name" maxlength="10" show-word-limit placeholder="请输入" />
         </el-form-item>
         <el-form-item prop="sort" label="排序">
           <el-input-number v-model="formData.sort" :min="1" :max="1000" placeholder="请输入" />
