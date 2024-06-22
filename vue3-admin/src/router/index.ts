@@ -108,39 +108,39 @@ export const constantRoutes: RouteRecordRaw[] = [
         }
       }
     ]
-  },
-  {
-    path: "/borrow_book",
-    component: Layouts,
-    redirect: "/borrow_book",
-    children: [
-      {
-        path: "",
-        component: () => import("@/views/borrow_book/index.vue"),
-        name: "borrow_book",
-        meta: {
-          title: "借阅书籍",
-          svgIcon: "unocss"
-        }
-      }
-    ]
-  },
-  {
-    path: "/return_book",
-    component: Layouts,
-    redirect: "/return_book",
-    children: [
-      {
-        path: "",
-        component: () => import("@/views/return_book/index.vue"),
-        name: "return_book",
-        meta: {
-          title: "归还书籍",
-          svgIcon: "unocss"
-        }
-      }
-    ]
   }
+  // {
+  //   path: "/borrow_book",
+  //   component: Layouts,
+  //   redirect: "/borrow_book",
+  //   children: [
+  //     {
+  //       path: "",
+  //       component: () => import("@/views/borrow_book/index.vue"),
+  //       name: "borrow_book",
+  //       meta: {
+  //         title: "借阅书籍",
+  //         svgIcon: "unocss"
+  //       }
+  //     }
+  //   ]
+  // },
+  // {
+  //   path: "/return_book",
+  //   component: Layouts,
+  //   redirect: "/return_book",
+  //   children: [
+  //     {
+  //       path: "",
+  //       component: () => import("@/views/return_book/index.vue"),
+  //       name: "return_book",
+  //       meta: {
+  //         title: "归还书籍",
+  //         svgIcon: "unocss"
+  //       }
+  //     }
+  //   ]
+  // }
   // {
   //   path: "/unocss",
   //   component: Layouts,

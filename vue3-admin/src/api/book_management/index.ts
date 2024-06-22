@@ -34,3 +34,12 @@ export function getBookManagementApi(params: bookManagement.GetTableRequestData)
     params
   })
 }
+
+/** 搜索 */
+export function searchBookManagementApi(params: bookManagement.GetTableRequestData) {
+  return request<bookManagement.GetTableResponseData>({
+    url: "/book_info/search",
+    method: "get",
+    params
+  })
+}

@@ -51,6 +51,16 @@ class bookInfoService extends Service {
     const total = await this.app.mysql.query(`select count(*) as count from book_info ${where}`); // 数量
     return { list, total: total[0].count };
   }
+  // 获取搜索列表
+  async search(data) {
+    const where = `where book_name like '%${data.book_name || ''}%' 
+      OR author like '%${data.book_name || ''}%'
+      OR publish like '%${data.book_name || ''}%'
+      OR ISBN like '%${data.book_name || ''}%'`;
+    const list = await this.app.mysql.query(`select * from book_info ${where}  limit ${(data.pageNum - 1) * data.pageSize},${data.pageSize}`);
+    const total = await this.app.mysql.query(`select count(*) as count from book_info ${where}`); // 数量
+    return { list, total: total[0].count };
+  }
 }
 
 module.exports = bookInfoService;

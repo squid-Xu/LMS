@@ -8,10 +8,12 @@ import { usePagination } from "@/hooks/usePagination"
 import { formatDateTime } from "@/utils"
 import AddEdit from "./add_edit.vue"
 import dayjs from "dayjs"
+import Borrow from "./borrow.vue"
+import GiveBack from "./giveBack.vue"
 
 defineOptions({
   // 命名当前组件
-  name: "BookManagement"
+  name: "UserManagement"
 })
 
 const loading = ref<boolean>(false)
@@ -92,6 +94,20 @@ const remainingDays = computed(() => {
     return endDate ? dayjs(endDate).diff(dayjs(), "days") : 0
   }
 })
+
+//#endregion
+
+//#region 借阅、归还
+//借阅
+const borrow = ref()
+const handleBorrow = (row: GetTableData) => {
+  borrow.value.open(row)
+}
+//归还
+const giveBack = ref()
+const handleReturn = (row: GetTableData) => {
+  giveBack.value.open(row)
+}
 //#endregion
 
 /** 监听分页参数的变化 */
@@ -142,7 +158,7 @@ watch([() => paginationData.currentPage, () => paginationData.pageSize], getTabl
                 <el-tooltip
                   class="box-item"
                   effect="dark"
-                  :content="`剩余${remainingDays(scope.row.expire)}天`"
+                  :content="`剩余 ${remainingDays(scope.row.expire)} 天`"
                   placement="top"
                 >
                   正常
@@ -152,7 +168,7 @@ watch([() => paginationData.currentPage, () => paginationData.pageSize], getTabl
                 <el-tooltip
                   class="box-item"
                   effect="dark"
-                  :content="`已过期${Math.abs(remainingDays(scope.row.expire))}天`"
+                  :content="`已过期 ${Math.abs(remainingDays(scope.row.expire))} 天`"
                   placement="top"
                 >
                   过期
@@ -170,9 +186,11 @@ watch([() => paginationData.currentPage, () => paginationData.pageSize], getTabl
               {{ formatDateTime(scope.row.update_time) }}
             </template>
           </el-table-column>
-          <el-table-column fixed="right" label="操作" width="200" align="center">
+          <el-table-column fixed="right" label="操作" width="350" align="center">
             <template #default="scope">
-              <el-button type="primary" text bg size="small" @click="handleDetail(scope.row)">详情</el-button>
+              <el-button type="success" text bg size="small" @click="handleBorrow(scope.row)">借阅</el-button>
+              <el-button type="warning" text bg size="small" @click="handleReturn(scope.row)">归还</el-button>
+              <el-button type="info" text bg size="small" @click="handleDetail(scope.row)">详情</el-button>
               <el-button type="primary" text bg size="small" @click="handleUpdate(scope.row)">修改</el-button>
               <el-button type="danger" text bg size="small" @click="handleDelete(scope.row)">删除</el-button>
             </template>
@@ -194,6 +212,10 @@ watch([() => paginationData.currentPage, () => paginationData.pageSize], getTabl
     </el-card>
     <!-- 新增/修改 -->
     <AddEdit ref="addEdit" @ok="getTableData" />
+    <!-- 借阅 -->
+    <Borrow ref="borrow" />
+    <!-- 归还 -->
+    <GiveBack ref="giveBack" />
   </div>
 </template>
 

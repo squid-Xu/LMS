@@ -24,6 +24,7 @@ module.exports = app => {
   router.put('/book_info/edit', controller.bookInfo.edit);
   router.delete('/book_info/delete/:id', controller.bookInfo.delete);
   router.get('/book_info/list', controller.bookInfo.list);
+  router.get('/book_info/search', controller.bookInfo.search);
 
   // 会员管理
   router.post('/reader_info/add', controller.readerInfo.add);

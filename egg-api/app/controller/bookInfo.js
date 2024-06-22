@@ -53,6 +53,13 @@ class bookInfoController extends Controller {
     const res = await ctx.service.bookInfo.list(ctx.request.query);
     ctx.sendSuccess(res);
   }
+  // 获取搜索列表
+  async search() {
+    const { ctx } = this;
+    ctx.validate(listClass, ctx.request.query);
+    const res = await ctx.service.bookInfo.search(ctx.request.query);
+    ctx.sendSuccess(res);
+  }
 }
 
 module.exports = bookInfoController;
