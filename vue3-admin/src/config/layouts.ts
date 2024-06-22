@@ -35,18 +35,18 @@ export interface LayoutSettings {
 
 /** 默认配置 */
 const defaultSettings: LayoutSettings = {
-  layoutMode: LayoutModeEnum.Left,
+  layoutMode: LayoutModeEnum.LeftTop,
   showSettings: false,
   showTagsView: true,
   fixedHeader: true,
   showFooter: false,
-  showLogo: false,
+  showLogo: true,
   showNotify: false,
   showThemeSwitch: true,
   showScreenfull: true,
   showSearchMenu: false,
   cacheTagsView: false,
-  showWatermark: false,
+  showWatermark: true,
   showGreyMode: false,
   showColorWeakness: false
 }

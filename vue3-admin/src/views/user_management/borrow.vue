@@ -37,12 +37,7 @@
       </el-descriptions>
     </el-card>
     <el-card shadow="never" class="search-wrapper">
-      <el-input
-        v-model="searchData.book_name"
-        size="large"
-        placeholder="请输入书名、作者、出版社、ISBN"
-        :suffix-icon="Search"
-      />
+      <el-input v-model="searchData.book_name" placeholder="请输入书名、作者、出版社、ISBN" :prefix-icon="Search" />
     </el-card>
     <el-card v-loading="loading" shadow="never">
       <div class="table-wrapper">
@@ -55,7 +50,11 @@
           <el-table-column prop="number" label="数量" width="150" />
           <el-table-column fixed="right" label="操作" width="100" align="center">
             <template #default="scope">
-              <el-button type="success" size="small" @click="handleBorrow(scope.row)">借阅</el-button>
+              <el-popconfirm title="确定借阅?" @confirm="handleBorrow(scope.row)">
+                <template #reference>
+                  <el-button type="success" plain size="small">借阅</el-button>
+                </template>
+              </el-popconfirm>
             </template>
           </el-table-column>
         </el-table>
@@ -87,6 +86,8 @@ import { usePagination } from "@/hooks/usePagination"
 import { searchBookManagementApi } from "@/api/book_management"
 import { type GetTableData } from "@/api/book_management/types/book_management"
 import { Search } from "@element-plus/icons-vue"
+import { createLendListApi } from "@/api/lend_list"
+import { ElMessage } from "element-plus"
 
 //#region 弹窗信息
 const dialogVisible = ref(false)
@@ -108,6 +109,7 @@ const open = (row: UserGetTableData) => {
   if (row) {
     formData.value = cloneDeep(row)
   }
+  getTableData()
 }
 
 //剩余天数
@@ -153,7 +155,7 @@ const handleSearch = () => {
 //#endregion
 
 /** 监听分页参数的变化 */
-watch([() => paginationData.currentPage, () => paginationData.pageSize], getTableData, { immediate: true })
+watch([() => paginationData.currentPage, () => paginationData.pageSize], getTableData)
 
 watch(() => searchData.book_name, handleSearch)
 
@@ -162,7 +164,15 @@ const handleClose = () => {
 }
 
 //借阅
-const handleBorrow = () => {}
+const handleBorrow = (row: GetTableData) => {
+  createLendListApi({
+    book_id: row.book_id,
+    reader_id: formData.value.reader_id,
+    status: 1
+  }).then(() => {
+    ElMessage.success("借阅成功")
+  })
+}
 
 defineExpose({
   open
@@ -175,7 +185,7 @@ defineExpose({
 </style>
 <style lang="scss" scoped>
 .search-wrapper {
-  margin-bottom: 20px;
+  margin-bottom: 10px;
   // :deep(.el-card__body) {
   //   padding-bottom: 2px;
   // }

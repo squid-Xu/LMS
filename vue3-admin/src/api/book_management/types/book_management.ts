@@ -1,5 +1,5 @@
 export interface CreateOrUpdateTableRequestData {
-  book_id?: string
+  book_id?: number
   book_name: string
   author: string
   publish: string
@@ -24,11 +24,13 @@ export interface GetTableRequestData {
 
   publish?: string
 
+  class_name?: string
+
   ISBN?: string
 }
 
 export interface GetTableData {
-  book_id: string
+  book_id: number
   book_name: string
   author: string
   publish: string

@@ -36,26 +36,32 @@
         </el-descriptions-item>
       </el-descriptions>
     </el-card>
-    <el-card shadow="never" class="search-wrapper">
-      <el-input
-        v-model="searchData.book_name"
-        size="large"
-        placeholder="请输入书名、作者、出版社、ISBN"
-        :suffix-icon="Search"
-      />
-    </el-card>
+
     <el-card v-loading="loading" shadow="never">
       <div class="table-wrapper">
         <el-table :data="tableData">
-          <el-table-column prop="book_name" fixed label="名称" show-overflow-tooltip width="250" />
-          <el-table-column prop="author" label="作者" show-overflow-tooltip width="250" />
-          <el-table-column prop="publish" label="出版社" show-overflow-tooltip min-width="250" />
+          <el-table-column prop="name" fixed label="姓名" width="150" />
+          <el-table-column prop="phone" label="手机号" width="150" />
+          <el-table-column prop="book_name" show-overflow-tooltip label="书名" width="150" />
           <el-table-column prop="ISBN" label="ISBN" width="200" />
-          <el-table-column prop="price" label="价格" width="150" />
-          <el-table-column prop="number" label="数量" width="150" />
+          <el-table-column prop="expire" label="状态" width="150">
+            <template #default="scope">
+              <el-tag v-if="scope.row.status === 1" type="danger" effect="dark"> 未还 </el-tag>
+              <el-tag v-else type="success" effect="dark"> 已还 </el-tag>
+            </template>
+          </el-table-column>
+          <el-table-column prop="lend_date" label="借出时间" min-width="200">
+            <template #default="scope">
+              {{ formatDateTime(scope.row.lend_date) }}
+            </template>
+          </el-table-column>
           <el-table-column fixed="right" label="操作" width="100" align="center">
             <template #default="scope">
-              <el-button type="success" size="small" @click="handleBorrow(scope.row)">借阅</el-button>
+              <el-popconfirm title="确定归还?" @confirm="handleReturn(scope.row)">
+                <template #reference>
+                  <el-button type="primary" :disabled="scope.row.status === 2" text bg size="small">归还</el-button>
+                </template>
+              </el-popconfirm>
             </template>
           </el-table-column>
         </el-table>
@@ -76,7 +82,7 @@
   </el-dialog>
 </template>
 <script lang="ts" setup>
-import { ref, computed, watch, reactive } from "vue"
+import { ref, computed, watch } from "vue"
 import {
   type CreateOrUpdateTableRequestData,
   type GetTableData as UserGetTableData
@@ -84,9 +90,10 @@ import {
 import { cloneDeep } from "lodash-es"
 import dayjs from "dayjs"
 import { usePagination } from "@/hooks/usePagination"
-import { searchBookManagementApi } from "@/api/book_management"
-import { type GetTableData } from "@/api/book_management/types/book_management"
-import { Search } from "@element-plus/icons-vue"
+import { getLendListApi, updateLendListApi } from "@/api/lend_list"
+import { type GetTableData } from "@/api/lend_list/types/lend_list"
+import { ElMessage } from "element-plus"
+import { formatDateTime } from "@/utils"
 
 //#region 弹窗信息
 const dialogVisible = ref(false)
@@ -107,6 +114,7 @@ const open = (row: UserGetTableData) => {
   dialogVisible.value = true
   if (row) {
     formData.value = cloneDeep(row)
+    getTableData()
   }
 }
 
@@ -126,15 +134,13 @@ const { paginationData, handleCurrentChange, handleSizeChange } = usePagination(
 
 //#region 查
 const tableData = ref<GetTableData[]>([])
-const searchData = reactive({
-  book_name: ""
-})
 const getTableData = () => {
   loading.value = true
-  searchBookManagementApi({
+  getLendListApi({
     pageNum: paginationData.currentPage,
     pageSize: paginationData.pageSize,
-    book_name: searchData.book_name || undefined
+    phone: formData.value.phone,
+    status: "1"
   })
     .then(({ data }) => {
       paginationData.total = data.total
@@ -147,22 +153,28 @@ const getTableData = () => {
       loading.value = false
     })
 }
-const handleSearch = () => {
-  paginationData.currentPage === 1 ? getTableData() : (paginationData.currentPage = 1)
-}
+
 //#endregion
 
 /** 监听分页参数的变化 */
-watch([() => paginationData.currentPage, () => paginationData.pageSize], getTableData, { immediate: true })
-
-watch(() => searchData.book_name, handleSearch)
+watch([() => paginationData.currentPage, () => paginationData.pageSize], getTableData)
 
 const handleClose = () => {
   dialogVisible.value = false
 }
 
-//借阅
-const handleBorrow = () => {}
+//#region归还
+const handleReturn = (row: GetTableData) => {
+  updateLendListApi({
+    ser_num: row.ser_num,
+    back_date: dayjs().format("YYYY-MM-DD HH:mm:ss"),
+    status: 2
+  }).then(() => {
+    ElMessage.success("归还成功")
+    getTableData()
+  })
+}
+//#endregion
 
 defineExpose({
   open

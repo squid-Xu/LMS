@@ -7,6 +7,8 @@ import { Search, Refresh, CirclePlus, RefreshRight } from "@element-plus/icons-v
 import { usePagination } from "@/hooks/usePagination"
 import { formatDateTime } from "@/utils"
 import AddEdit from "./add_edit.vue"
+import { getAllBookClassApi } from "@/api/book_class"
+import { type GetTableData as GetClassTableData } from "@/api/book_class/types/book_class"
 
 defineOptions({
   // 命名当前组件
@@ -59,6 +61,7 @@ const searchData = reactive({
   book_name: "",
   author: "",
   publish: "",
+  class_name: "",
   ISBN: ""
 })
 const getTableData = () => {
@@ -69,6 +72,7 @@ const getTableData = () => {
     book_name: searchData.book_name || undefined,
     author: searchData.author || undefined,
     publish: searchData.publish || undefined,
+    class_name: searchData.class_name || undefined,
     ISBN: searchData.ISBN || undefined
   })
     .then(({ data }) => {
@@ -89,6 +93,13 @@ const resetSearch = () => {
   searchFormRef.value?.resetFields()
   handleSearch()
 }
+const classDate = ref<GetClassTableData[]>([])
+const getAllClass = () => {
+  getAllBookClassApi().then(({ data }) => {
+    classDate.value = data
+  })
+}
+getAllClass()
 //#endregion
 
 /** 监听分页参数的变化 */
@@ -108,6 +119,16 @@ watch([() => paginationData.currentPage, () => paginationData.pageSize], getTabl
         <el-form-item prop="publish" label="出版社">
           <el-input v-model="searchData.publish" placeholder="请输入" />
         </el-form-item>
+        <el-form-item prop="class_name" label="分类">
+          <el-select v-model="searchData.class_name" style="width: 220px" clearable placeholder="请选择">
+            <el-option
+              v-for="item in classDate"
+              :key="item.class_id"
+              :label="item.class_name"
+              :value="item.class_name"
+            />
+          </el-select>
+        </el-form-item>
         <el-form-item prop="ISBN" label="ISBN">
           <el-input v-model="searchData.ISBN" placeholder="请输入" />
         </el-form-item>
@@ -120,7 +141,7 @@ watch([() => paginationData.currentPage, () => paginationData.pageSize], getTabl
     <el-card v-loading="loading" shadow="never">
       <div class="toolbar-wrapper">
         <div>
-          <el-button type="primary" :icon="CirclePlus" @click="addBook">新增图书</el-button>
+          <el-button type="primary" :icon="CirclePlus" @click="addBook">添加新书</el-button>
         </div>
         <div>
           <el-tooltip content="刷新当前页">
@@ -133,6 +154,7 @@ watch([() => paginationData.currentPage, () => paginationData.pageSize], getTabl
           <el-table-column prop="book_name" fixed label="名称" show-overflow-tooltip width="250" />
           <el-table-column prop="author" label="作者" show-overflow-tooltip width="250" />
           <el-table-column prop="publish" label="出版社" show-overflow-tooltip width="250" />
+          <el-table-column prop="class_name" label="分类" show-overflow-tooltip width="250" />
           <el-table-column prop="ISBN" label="ISBN" width="200" />
           <el-table-column prop="price" label="价格" width="150" />
           <el-table-column prop="number" label="数量" width="150" />

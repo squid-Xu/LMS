@@ -42,22 +42,32 @@ class bookInfoService extends Service {
   }
   // 获取列表
   async list(data) {
-    // const where = `${data.book_name ? `where book_name like '%${data.book_name}%'` : ''}`;
-    const where = `where book_name like '%${data.book_name || ''}%' 
-    and author like '%${data.author || ''}%'
-    and publish like '%${data.publish || ''}%'
-    and ISBN like '%${data.ISBN || ''}%'`;
-    const list = await this.app.mysql.query(`select * from book_info ${where}  limit ${(data.pageNum - 1) * data.pageSize},${data.pageSize}`);
-    const total = await this.app.mysql.query(`select count(*) as count from book_info ${where}`); // 数量
+    const where = `
+    where book_name like '%${data.book_name || ''}%' 
+    and author like '%${data.author || ''}%' 
+    and publish like '%${data.publish || ''}%' 
+    and ISBN like '%${data.ISBN || ''}%' 
+    and class_name like '%${data.class_name || ''}%'
+    `;
+    const list = await this.app.mysql.query(`
+      select book_info.*, 
+      class_info.class_name as class_name 
+      from book_info 
+      join class_info on book_info.class_id = class_info.class_id 
+      ${where} 
+      order by create_time desc 
+      limit ${(data.pageNum - 1) * data.pageSize},${data.pageSize}`);
+    const total = await this.app.mysql.query(`select count(*) as count from book_info join class_info on book_info.class_id = class_info.class_id ${where}`); // 数量
     return { list, total: total[0].count };
   }
   // 获取搜索列表
   async search(data) {
-    const where = `where book_name like '%${data.book_name || ''}%' 
+    const where = `
+      where book_name like '%${data.book_name || ''}%' 
       OR author like '%${data.book_name || ''}%'
       OR publish like '%${data.book_name || ''}%'
       OR ISBN like '%${data.book_name || ''}%'`;
-    const list = await this.app.mysql.query(`select * from book_info ${where}  limit ${(data.pageNum - 1) * data.pageSize},${data.pageSize}`);
+    const list = await this.app.mysql.query(`select * from book_info ${where} order by create_time desc limit ${(data.pageNum - 1) * data.pageSize},${data.pageSize}`);
     const total = await this.app.mysql.query(`select count(*) as count from book_info ${where}`); // 数量
     return { list, total: total[0].count };
   }

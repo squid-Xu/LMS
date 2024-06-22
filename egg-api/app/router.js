@@ -31,4 +31,10 @@ module.exports = app => {
   router.put('/reader_info/edit', controller.readerInfo.edit);
   router.delete('/reader_info/delete/:id', controller.readerInfo.delete);
   router.get('/reader_info/list', controller.readerInfo.list);
+
+  // 借阅、归还管理
+  router.post('/lend_list/add', controller.lendList.add);
+  router.put('/lend_list/edit', controller.lendList.edit);
+  router.delete('/lend_list/delete/:id', controller.lendList.delete);
+  router.get('/lend_list/list', controller.lendList.list);
 };

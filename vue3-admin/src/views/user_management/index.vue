@@ -133,7 +133,7 @@ watch([() => paginationData.currentPage, () => paginationData.pageSize], getTabl
     <el-card v-loading="loading" shadow="never">
       <div class="toolbar-wrapper">
         <div>
-          <el-button type="primary" :icon="CirclePlus" @click="addBook">新增会员</el-button>
+          <el-button type="primary" :icon="CirclePlus" @click="addBook">添加新会员</el-button>
         </div>
         <div>
           <el-tooltip content="刷新当前页">

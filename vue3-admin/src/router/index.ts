@@ -72,7 +72,7 @@ export const constantRoutes: RouteRecordRaw[] = [
         name: "book_class",
         meta: {
           title: "图书分类",
-          svgIcon: "unocss"
+          svgIcon: "class"
         }
       }
     ]
@@ -88,7 +88,7 @@ export const constantRoutes: RouteRecordRaw[] = [
         name: "book_management",
         meta: {
           title: "图书管理",
-          svgIcon: "unocss"
+          svgIcon: "book"
         }
       }
     ]
@@ -104,11 +104,11 @@ export const constantRoutes: RouteRecordRaw[] = [
         name: "user_management",
         meta: {
           title: "会员管理",
-          svgIcon: "unocss"
+          svgIcon: "reader"
         }
       }
     ]
-  }
+  },
   // {
   //   path: "/borrow_book",
   //   component: Layouts,
@@ -125,22 +125,22 @@ export const constantRoutes: RouteRecordRaw[] = [
   //     }
   //   ]
   // },
-  // {
-  //   path: "/return_book",
-  //   component: Layouts,
-  //   redirect: "/return_book",
-  //   children: [
-  //     {
-  //       path: "",
-  //       component: () => import("@/views/return_book/index.vue"),
-  //       name: "return_book",
-  //       meta: {
-  //         title: "归还书籍",
-  //         svgIcon: "unocss"
-  //       }
-  //     }
-  //   ]
-  // }
+  {
+    path: "/return_book",
+    component: Layouts,
+    redirect: "/return_book",
+    children: [
+      {
+        path: "",
+        component: () => import("@/views/return_book/index.vue"),
+        name: "return_book",
+        meta: {
+          title: "借阅记录",
+          svgIcon: "lend"
+        }
+      }
+    ]
+  }
   // {
   //   path: "/unocss",
   //   component: Layouts,
