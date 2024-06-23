@@ -12,6 +12,10 @@ module.exports = app => {
   // 管理员
   router.post('/admin/login', controller.admin.login);
   router.get('/admin/info', controller.admin.info);
+  router.post('/admin/add', controller.admin.add);
+  router.put('/admin/edit', controller.admin.edit);
+  router.delete('/admin/delete/:id', controller.admin.delete);
+  router.get('/admin/list', controller.admin.list);
   // 图书分类
   router.post('/class_info/add', controller.classInfo.add);
   router.put('/class_info/edit', controller.classInfo.edit);

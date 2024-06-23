@@ -22,8 +22,8 @@ const { isLeft, isTop } = useLayoutMode()
         <img :src="logo" class="layout-logo" />
       </router-link>
       <router-link v-else key="expand" to="/">
-        <p class="layout-text">文探書店</p>
-        <!-- <img :src="!isLeft ? logoText2 : logoText1" class="layout-logo-text" /> -->
+        <!-- <div class="layout-text">文探書店</div> -->
+        <img :src="!isLeft ? logoText2 : logoText1" class="layout-logo-text" />
       </router-link>
     </transition>
   </div>
@@ -41,7 +41,7 @@ const { isLeft, isTop } = useLayoutMode()
     display: none;
   }
   .layout-logo-text {
-    height: 100%;
+    width: 100%;
     vertical-align: middle;
   }
 }
@@ -63,12 +63,16 @@ const { isLeft, isTop } = useLayoutMode()
   }
 }
 .layout-text {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
   font-family:
     Source Han Serif CN,
     Source Han Serif CN;
   font-weight: 700;
   font-size: 32px;
   color: #ffffff;
-  line-height: 46px;
+  letter-spacing: 5px;
 }
 </style>

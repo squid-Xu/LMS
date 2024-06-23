@@ -23,7 +23,7 @@ class bookInfoService extends Service {
       this.ctx.sendError('图书已存在');
       return false;
     }
-    const { book_id, create_time, update_time, ...row } = data;
+    const { book_id, class_name, create_time, update_time, ...row } = data;
     const result = await this.app.mysql.update('book_info', row, { where: { book_id } });
     if (result.affectedRows === 1) {
       return result;
