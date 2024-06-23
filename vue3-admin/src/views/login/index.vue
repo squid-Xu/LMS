@@ -74,11 +74,12 @@ const createCode = () => {
 
 <template>
   <div class="login-container">
-    <ThemeSwitch class="theme-switch" />
+    <!-- <ThemeSwitch class="theme-switch" /> -->
     <!-- <Owl :close-eyes="isFocus" /> -->
     <div class="login-card">
       <div class="title">
-        <img src="@/assets/layouts/logo-text-2.png" />
+        文探書店
+        <!-- <img src="@/assets/layouts/logo-text-2.png" /> -->
       </div>
       <div class="content">
         <el-form ref="loginFormRef" :model="loginFormData" :rules="loginFormRules" @keyup.enter="handleLogin">
@@ -146,6 +147,10 @@ const createCode = () => {
   align-items: center;
   width: 100%;
   min-height: 100%;
+  background: url("../../assets/bg/login.png");
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  // background-image: url("~@/assets/layouts/logo-text-2.png");
   .theme-switch {
     position: fixed;
     top: 5%;
@@ -164,9 +169,17 @@ const createCode = () => {
       justify-content: center;
       align-items: center;
       height: 150px;
-      img {
-        height: 100%;
-      }
+      font-family:
+        Source Han Serif CN,
+        Source Han Serif CN;
+      font-weight: 700;
+      font-size: 58px;
+      line-height: 83px;
+      letter-spacing: 17px;
+      color: #0e5ed8;
+      // img {
+      //   height: 100%;
+      // }
     }
     .content {
       padding: 20px 50px 50px 50px;
