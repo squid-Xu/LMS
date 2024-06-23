@@ -13,13 +13,14 @@ export const useUserStore = defineStore("user", () => {
   const token = ref<string>(getToken() || "")
   const roles = ref<string[]>([])
   const username = ref<string>("")
+  const nickname = ref<string>("")
 
   const tagsViewStore = useTagsViewStore()
   const settingsStore = useSettingsStore()
 
   /** 登录 */
-  const login = async ({ username, password, code }: LoginRequestData) => {
-    const { data } = await loginApi({ username, password, code })
+  const login = async ({ username, password }: LoginRequestData) => {
+    const { data } = await loginApi({ username, password })
     setToken(data.token)
     token.value = data.token
   }
@@ -27,6 +28,7 @@ export const useUserStore = defineStore("user", () => {
   const getInfo = async () => {
     const { data } = await getUserInfoApi()
     username.value = data.username
+    nickname.value = data.nickname
     // 验证返回的 roles 是否为一个非空数组，否则塞入一个没有任何作用的默认角色，防止路由守卫逻辑进入无限循环
     roles.value = data.roles?.length > 0 ? data.roles : routeSettings.defaultRoles
   }
@@ -60,7 +62,7 @@ export const useUserStore = defineStore("user", () => {
     }
   }
 
-  return { token, roles, username, login, getInfo, changeRoles, logout, resetToken }
+  return { token, roles, username, nickname, login, getInfo, changeRoles, logout, resetToken }
 })
 
 /** 在 setup 外使用 */

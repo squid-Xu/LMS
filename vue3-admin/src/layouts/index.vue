@@ -11,6 +11,7 @@ import TopMode from "./TopMode.vue"
 import LeftTopMode from "./LeftTopMode.vue"
 import { Settings, RightPanel } from "./components"
 import { getCssVariableValue, setCssVariableValue } from "@/utils"
+import { useUserStore } from "@/store/modules/user"
 
 /** Layout 布局响应式 */
 useResize()
@@ -39,8 +40,10 @@ watchEffect(() => {
 //#endregion
 
 /** 开启或关闭系统水印 */
+const userStore = useUserStore()
 watchEffect(() => {
-  showWatermark.value ? setWatermark(import.meta.env.VITE_APP_TITLE) : clearWatermark()
+  // showWatermark.value ? setWatermark(import.meta.env.VITE_APP_TITLE) : clearWatermark()
+  showWatermark.value ? setWatermark(`${import.meta.env.VITE_APP_TITLE} ${userStore.nickname}`) : clearWatermark()
 })
 </script>
 

@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { reactive, ref, watch } from "vue"
-import { deleteAdminManagementApi, getAdminManagementApi } from "@/api/admin_management"
+import { deleteAdminManagementApi, getAdminManagementApi, updateAdminManagementApi } from "@/api/admin_management"
 import { type GetTableData } from "@/api/admin_management/types/admin_management"
 import { type FormInstance, ElMessage, ElMessageBox } from "element-plus"
 import { Search, Refresh, CirclePlus, RefreshRight } from "@element-plus/icons-vue"
@@ -28,7 +28,7 @@ const addBook = () => {
 
 //#region 删
 const handleDelete = (row: GetTableData) => {
-  ElMessageBox.confirm(`正在删除用户：${row.nickname}，确认删除？`, "提示", {
+  ElMessageBox.confirm(`正在删除管理员：${row.nickname}，确认删除？`, "提示", {
     confirmButtonText: "确定",
     cancelButtonText: "取消",
     type: "warning"
@@ -87,6 +87,18 @@ const resetSearch = () => {
 }
 //#endregion
 
+//#region 禁用、解除
+const handleForbidden = (row: GetTableData, status: number) => {
+  updateAdminManagementApi({
+    ...row,
+    status
+  }).then(() => {
+    ElMessage.success("操作成功")
+    getTableData()
+  })
+}
+//#endregion
+
 /** 监听分页参数的变化 */
 watch([() => paginationData.currentPage, () => paginationData.pageSize], getTableData, { immediate: true })
 </script>
@@ -138,9 +150,21 @@ watch([() => paginationData.currentPage, () => paginationData.pageSize], getTabl
               {{ formatDateTime(scope.row.update_time) }}
             </template>
           </el-table-column>
-          <el-table-column fixed="right" label="操作" width="350" align="center">
+          <el-table-column fixed="right" label="操作" width="200" align="center">
             <template #default="scope">
-              <el-button type="info" text bg size="small" @click="handleDetail(scope.row)">详情</el-button>
+              <!-- <el-button type="info" text bg size="small" @click="handleDetail(scope.row)">详情</el-button> -->
+              <el-popconfirm title="确定禁用?" @confirm="handleForbidden(scope.row, 2)">
+                <template #reference>
+                  <el-button type="warning" text bg size="small" v-if="scope.row.status === 1">禁用</el-button>
+                </template>
+              </el-popconfirm>
+
+              <el-popconfirm title="确定解除?" @confirm="handleForbidden(scope.row, 1)">
+                <template #reference>
+                  <el-button type="success" text bg size="small" v-if="scope.row.status !== 1">解除</el-button>
+                </template>
+              </el-popconfirm>
+
               <el-button type="primary" text bg size="small" @click="handleUpdate(scope.row)">修改</el-button>
               <el-button type="danger" text bg size="small" @click="handleDelete(scope.row)">删除</el-button>
             </template>

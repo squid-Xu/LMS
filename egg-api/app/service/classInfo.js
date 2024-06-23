@@ -32,6 +32,11 @@ class classInfoService extends Service {
   }
   // 删除
   async delete(id) {
+    const list = await this.app.mysql.select('book_info', { where: { class_id: id } }); // 数量
+    if (list.length) {
+      this.ctx.sendError('请先删除本分类下图书');
+      return false;
+    }
     const result = await this.app.mysql.delete('class_info', { class_id: id });
     if (result.affectedRows === 1) {
       return result;

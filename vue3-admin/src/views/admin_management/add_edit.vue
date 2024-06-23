@@ -41,7 +41,8 @@ const DEFAULT_FORM_DATA: CreateOrUpdateTableRequestData = {
   username: "",
   password: "",
   nickname: "",
-  status: 1
+  status: 1,
+  roles: "editor"
 }
 
 const formData = ref<CreateOrUpdateTableRequestData>(cloneDeep(DEFAULT_FORM_DATA))

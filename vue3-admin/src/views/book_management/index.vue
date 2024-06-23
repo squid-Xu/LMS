@@ -172,7 +172,9 @@ watch([() => paginationData.currentPage, () => paginationData.pageSize], getTabl
             <template #default="scope">
               <el-button type="info" text bg size="small" @click="handleDetail(scope.row)">详情</el-button>
               <el-button type="primary" text bg size="small" @click="handleUpdate(scope.row)">修改</el-button>
-              <el-button type="danger" text bg size="small" @click="handleDelete(scope.row)">删除</el-button>
+              <el-button type="danger" v-permission="['admin']" text bg size="small" @click="handleDelete(scope.row)"
+                >删除</el-button
+              >
             </template>
           </el-table-column>
         </el-table>

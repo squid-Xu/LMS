@@ -148,7 +148,7 @@ watch([() => paginationData.currentPage, () => paginationData.pageSize], getTabl
                   <el-button type="primary" :disabled="scope.row.status === 2" text bg size="small">归还</el-button>
                 </template>
               </el-popconfirm>
-              <el-button type="danger" text bg size="small" @click="handleDelete(scope.row)">删除</el-button>
+              <el-button type="danger" v-permission="['admin']" text bg size="small" @click="handleDelete(scope.row)">删除</el-button>
             </template>
           </el-table-column>
         </el-table>

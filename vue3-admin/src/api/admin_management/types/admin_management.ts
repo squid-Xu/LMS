@@ -4,6 +4,7 @@ export interface CreateOrUpdateTableRequestData {
   password: string
   status: number
   nickname: string
+  roles: string
 }
 
 export interface GetTableRequestData {
@@ -22,6 +23,7 @@ export interface GetTableData {
   username: string
   status: number
   nickname: string
+  roles: string
   password: string
   create_time: string
   update_time: string

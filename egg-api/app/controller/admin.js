@@ -8,9 +8,10 @@ const Account = {
 const addAdmin = {
   admin_id: 'int?',
   username: 'string',
-  password: 'string',
+  password: 'string?',
   nickname: 'string',
   status: 'number',
+  roles: 'string',
 };
 
 const listAdmin = {
@@ -40,7 +41,7 @@ class AdminController extends Controller {
     const payload = ctx.request.userInfo;
     const res = await ctx.service.admin.getById(payload.admin_id);
     if (res) {
-      ctx.sendSuccess({ admin_id: res.admin_id, username: res.username, nickname: res.nickname });
+      ctx.sendSuccess({ admin_id: res.admin_id, username: res.username, nickname: res.nickname, roles: [ res.roles ] });
     } else {
       ctx.sendError('token失效', 401);
     }
