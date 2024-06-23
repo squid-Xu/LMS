@@ -140,6 +140,22 @@ export const constantRoutes: RouteRecordRaw[] = [
         }
       }
     ]
+  },
+  {
+    path: "/admin_management",
+    component: Layouts,
+    redirect: "/admin_management",
+    children: [
+      {
+        path: "",
+        component: () => import("@/views/admin_management/index.vue"),
+        name: "admin_management",
+        meta: {
+          title: "管理员管理",
+          svgIcon: "admin"
+        }
+      }
+    ]
   }
   // {
   //   path: "/unocss",
