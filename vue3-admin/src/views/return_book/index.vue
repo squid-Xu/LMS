@@ -94,10 +94,10 @@ watch([() => paginationData.currentPage, () => paginationData.pageSize], getTabl
   <div class="app-container">
     <el-card v-loading="loading" shadow="never" class="search-wrapper">
       <el-form ref="searchFormRef" :inline="true" :model="searchData">
-        <el-form-item prop="name" label="姓名">
+        <el-form-item prop="name" label="借阅人姓名">
           <el-input v-model="searchData.name" placeholder="请输入" />
         </el-form-item>
-        <el-form-item prop="phone" label="手机号">
+        <el-form-item prop="phone" label="借阅人手机号">
           <el-input v-model="searchData.phone" placeholder="请输入" />
         </el-form-item>
         <el-form-item prop="book_name" label="书名">
@@ -121,8 +121,8 @@ watch([() => paginationData.currentPage, () => paginationData.pageSize], getTabl
     <el-card v-loading="loading" shadow="never">
       <div class="table-wrapper">
         <el-table :data="tableData">
-          <el-table-column prop="name" fixed label="姓名" width="150" />
-          <el-table-column prop="phone" label="手机号" width="150" />
+          <el-table-column prop="name" fixed label="借阅人姓名" width="150" />
+          <el-table-column prop="phone" label="借阅人手机号" width="150" />
           <el-table-column prop="book_name" show-overflow-tooltip label="书名" width="150" />
           <el-table-column prop="ISBN" label="ISBN" width="200" />
           <el-table-column prop="expire" label="状态" width="150">
@@ -136,11 +136,13 @@ watch([() => paginationData.currentPage, () => paginationData.pageSize], getTabl
               {{ formatDateTime(scope.row.lend_date) }}
             </template>
           </el-table-column>
+          <el-table-column prop="borrower" label="借阅操作人" width="150" />
           <el-table-column prop="back_date" label="归还时间" min-width="200">
             <template #default="scope">
               {{ scope.row.back_date ? formatDateTime(scope.row.back_date) : "" }}
             </template>
           </el-table-column>
+          <el-table-column prop="reverter" label="归还操作人" width="150" />
           <el-table-column fixed="right" label="操作" width="150" align="center">
             <template #default="scope">
               <el-popconfirm title="确定归还?" @confirm="handleReturn(scope.row)">
@@ -148,7 +150,9 @@ watch([() => paginationData.currentPage, () => paginationData.pageSize], getTabl
                   <el-button type="primary" :disabled="scope.row.status === 2" text bg size="small">归还</el-button>
                 </template>
               </el-popconfirm>
-              <el-button type="danger" v-permission="['admin']" text bg size="small" @click="handleDelete(scope.row)">删除</el-button>
+              <el-button type="danger" v-permission="['admin']" text bg size="small" @click="handleDelete(scope.row)"
+                >删除</el-button
+              >
             </template>
           </el-table-column>
         </el-table>

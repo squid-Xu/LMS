@@ -16,6 +16,8 @@ module.exports = app => {
   router.put('/admin/edit', controller.admin.edit);
   router.delete('/admin/delete/:id', controller.admin.delete);
   router.get('/admin/list', controller.admin.list);
+  router.put('/admin/password', controller.admin.password);
+
   // 图书分类
   router.post('/class_info/add', controller.classInfo.add);
   router.put('/class_info/edit', controller.classInfo.edit);

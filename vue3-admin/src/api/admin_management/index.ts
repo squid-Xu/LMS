@@ -34,3 +34,12 @@ export function getAdminManagementApi(params: adminManagement.GetTableRequestDat
     params
   })
 }
+
+/**修改密码 */
+export function updatePasswordAdminManagementApi(data: adminManagement.UpdatePasswordTableRequestData) {
+  return request({
+    url: "/admin/password",
+    method: "put",
+    data
+  })
+}

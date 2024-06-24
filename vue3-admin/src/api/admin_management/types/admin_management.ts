@@ -6,6 +6,11 @@ export interface CreateOrUpdateTableRequestData {
   nickname: string
   roles: string
 }
+export interface UpdatePasswordTableRequestData {
+  old_password: string
+  new_password: string
+  confin_password?: string
+}
 
 export interface GetTableRequestData {
   /** 当前页码 */

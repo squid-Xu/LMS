@@ -72,6 +72,21 @@ class AdminService extends Service {
     const total = await this.app.mysql.query(`select count(*) as count from admin ${where}`); // 数量
     return { list, total: total[0].count };
   }
+  // 修改密码
+  async password(playload, data) {
+    const accountInfo = await this.app.mysql.get('admin', { admin_id: playload.admin_id, password: data.old_password });
+    if (!accountInfo) {
+      this.ctx.sendError('原密码不正确');
+      return false;
+    }
+    const result = await this.app.mysql.update('admin', { password: data.new_password }, { where: { admin_id: playload.admin_id } });
+    if (result.affectedRows === 1) {
+      return result;
+    }
+    this.ctx.sendError('修改失败');
+    return false;
+
+  }
 }
 
 module.exports = AdminService;

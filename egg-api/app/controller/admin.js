@@ -18,6 +18,10 @@ const listAdmin = {
   pageSize: 'string',
   pageNum: 'string',
 };
+const passwordAccount = {
+  old_password: 'string',
+  new_password: 'string',
+};
 
 class AdminController extends Controller {
   // 登录
@@ -30,6 +34,7 @@ class AdminController extends Controller {
       {
         admin_id: res.admin_id,
         username: res.username,
+        nickname: res.nickname,
       },
       app.config.jwt.secret
     );
@@ -41,7 +46,12 @@ class AdminController extends Controller {
     const payload = ctx.request.userInfo;
     const res = await ctx.service.admin.getById(payload.admin_id);
     if (res) {
-      ctx.sendSuccess({ admin_id: res.admin_id, username: res.username, nickname: res.nickname, roles: [ res.roles ] });
+      ctx.sendSuccess({
+        admin_id: res.admin_id,
+        username: res.username,
+        nickname: res.nickname,
+        roles: [ res.roles ],
+      });
     } else {
       ctx.sendError('token失效', 401);
     }
@@ -75,6 +85,15 @@ class AdminController extends Controller {
     const { ctx } = this;
     ctx.validate(listAdmin, ctx.request.query);
     const res = await ctx.service.admin.list(ctx.request.query);
+    ctx.sendSuccess(res);
+  }
+  // 修改密码
+  async password() {
+    const { ctx } = this;
+    const payload = ctx.request.userInfo;
+    ctx.validate(passwordAccount, ctx.request.body);
+    const res = await ctx.service.admin.password(payload, ctx.request.body);
+    if (res === false) return;
     ctx.sendSuccess(res);
   }
 }

@@ -14,6 +14,8 @@ import Screenfull from "@/components/Screenfull/index.vue"
 import SearchMenu from "@/components/SearchMenu/index.vue"
 import { useDevice } from "@/hooks/useDevice"
 import { useLayoutMode } from "@/hooks/useLayoutMode"
+import setPassword from "./password.vue"
+import { ref } from "vue"
 
 const { isMobile } = useDevice()
 const { isTop } = useLayoutMode()
@@ -32,6 +34,12 @@ const toggleSidebar = () => {
 const logout = () => {
   userStore.logout()
   router.push("/login")
+}
+
+/** 修改密码*/
+const password = ref()
+const changePassword = () => {
+  password.value.open()
 }
 </script>
 
@@ -60,7 +68,7 @@ const logout = () => {
         </div>
         <template #dropdown>
           <el-dropdown-menu>
-            <el-dropdown-item :icon="Lock" @click="logout">
+            <el-dropdown-item :icon="Lock" @click="changePassword">
               <span style="display: block">修改密码</span>
             </el-dropdown-item>
             <el-dropdown-item :icon="SwitchButton" divided @click="logout">
@@ -71,6 +79,8 @@ const logout = () => {
       </el-dropdown>
     </div>
   </div>
+  <!-- 修改密码 -->
+  <setPassword ref="password" @ok="logout" />
 </template>
 
 <style lang="scss" scoped>

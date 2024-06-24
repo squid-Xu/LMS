@@ -40,8 +40,8 @@
     <el-card v-loading="loading" shadow="never">
       <div class="table-wrapper">
         <el-table :data="tableData">
-          <el-table-column prop="name" fixed label="姓名" width="150" />
-          <el-table-column prop="phone" label="手机号" width="150" />
+          <el-table-column prop="name" fixed label="借阅人姓名" width="150" />
+          <el-table-column prop="phone" label="借阅人手机号" width="150" />
           <el-table-column prop="book_name" show-overflow-tooltip label="书名" width="150" />
           <el-table-column prop="ISBN" label="ISBN" width="200" />
           <el-table-column prop="expire" label="状态" width="150">
@@ -55,6 +55,7 @@
               {{ formatDateTime(scope.row.lend_date) }}
             </template>
           </el-table-column>
+          <el-table-column prop="borrower" label="借阅操作人" width="150" />
           <el-table-column fixed="right" label="操作" width="100" align="center">
             <template #default="scope">
               <el-popconfirm title="确定归还?" @confirm="handleReturn(scope.row)">

@@ -3,6 +3,8 @@ const { Service } = require('egg');
 class lendListService extends Service {
   // 添加
   async save(data) {
+    const payload = this.ctx.request.userInfo || {};
+    data.borrower = payload.nickname;
     const result = await this.app.mysql.insert('lend_list', data);
     if (result.affectedRows === 1) {
       return result;
@@ -12,6 +14,8 @@ class lendListService extends Service {
   }
   // 编辑
   async edit(data) {
+    const payload = this.ctx.request.userInfo || {};
+    data.reverter = payload.nickname;
     const { ser_num, ...row } = data;
     const result = await this.app.mysql.update('lend_list', row, { where: { ser_num } });
     if (result.affectedRows === 1) {

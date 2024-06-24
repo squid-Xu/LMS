@@ -33,6 +33,11 @@ class readerInfoService extends Service {
   }
   // 删除
   async delete(id) {
+    const list = await this.app.mysql.select('lend_list', { where: { reader_id: id, status: 1 } }); // 数量
+    if (list.length) {
+      this.ctx.sendError('请先归还图书');
+      return false;
+    }
     const result = await this.app.mysql.delete('reader_info', { reader_id: id });
     if (result.affectedRows === 1) {
       return result;
