@@ -43,4 +43,8 @@ module.exports = app => {
   router.put('/lend_list/edit', controller.lendList.edit);
   router.delete('/lend_list/delete/:id', controller.lendList.delete);
   router.get('/lend_list/list', controller.lendList.list);
+
+  // 统计
+  router.get('/common/statistics', controller.common.statistics);
+  router.get('/common/echarts', controller.common.echarts);
 };

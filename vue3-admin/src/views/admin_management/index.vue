@@ -46,10 +46,10 @@ const handleUpdate = (row: GetTableData) => {
   addEdit.value.open(row)
   addEdit.value.isDetail = false
 }
-const handleDetail = (row: GetTableData) => {
-  addEdit.value.open(row)
-  addEdit.value.isDetail = true
-}
+// const handleDetail = (row: GetTableData) => {
+//   addEdit.value.open(row)
+//   addEdit.value.isDetail = true
+// }
 //#endregion
 
 //#region 查

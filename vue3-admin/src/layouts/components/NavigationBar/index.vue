@@ -4,7 +4,7 @@ import { storeToRefs } from "pinia"
 import { useAppStore } from "@/store/modules/app"
 import { useSettingsStore } from "@/store/modules/settings"
 import { useUserStore } from "@/store/modules/user"
-import { SwitchButton, Lock } from "@element-plus/icons-vue"
+import { SwitchButton, Edit } from "@element-plus/icons-vue"
 import Hamburger from "../Hamburger/index.vue"
 import Breadcrumb from "../Breadcrumb/index.vue"
 import Sidebar from "../Sidebar/index.vue"
@@ -68,7 +68,7 @@ const changePassword = () => {
         </div>
         <template #dropdown>
           <el-dropdown-menu>
-            <el-dropdown-item :icon="Lock" @click="changePassword">
+            <el-dropdown-item :icon="Edit" @click="changePassword">
               <span style="display: block">修改密码</span>
             </el-dropdown-item>
             <el-dropdown-item :icon="SwitchButton" divided @click="logout">
