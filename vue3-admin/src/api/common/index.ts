@@ -7,3 +7,11 @@ export function getCommontStatisticsApi() {
     method: "get"
   })
 }
+
+// 折线图
+export function getCommontEchartsApi() {
+  return request({
+    url: "/common/echarts",
+    method: "get"
+  })
+}

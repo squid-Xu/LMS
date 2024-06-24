@@ -17,7 +17,7 @@ module.exports = appInfo => {
 
   // add your middleware config here
 
-  config.tokenWhiteList = [ '/lsm-api/v1/admin/login', '/lsm-api/v1/common/echarts' ];
+  config.tokenWhiteList = [ '/lsm-api/v1/admin/login' ];
 
   // add your middleware config here
   config.middleware = [ 'jwtPars', 'errorHandler' ];
