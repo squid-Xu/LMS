@@ -76,6 +76,19 @@ class bookInfoService extends Service {
     const total = await this.app.mysql.query(`select count(*) as count from book_info ${where}`); // 数量
     return { list, total: total[0].count };
   }
+  // 批量
+  async batch(data) {
+    const accountInfo = await this.app.mysql.get('book_info', { ISBN: data.ISBN });
+    if (accountInfo) {
+      return false;
+    }
+    const result = await this.app.mysql.insert('book_info', data);
+    if (result.affectedRows === 1) {
+      return result;
+    }
+    this.ctx.sendError('添加失败');
+    return false;
+  }
 }
 
 module.exports = bookInfoService;

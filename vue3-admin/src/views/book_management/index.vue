@@ -3,12 +3,14 @@ import { reactive, ref, watch } from "vue"
 import { deleteBookManagementApi, getBookManagementApi } from "@/api/book_management"
 import { type GetTableData } from "@/api/book_management/types/book_management"
 import { type FormInstance, ElMessage, ElMessageBox } from "element-plus"
-import { Search, Refresh, CirclePlus, RefreshRight } from "@element-plus/icons-vue"
+import { Search, Refresh, CirclePlus, RefreshRight, UploadFilled } from "@element-plus/icons-vue"
 import { usePagination } from "@/hooks/usePagination"
 import { formatDateTime } from "@/utils"
 import AddEdit from "./add_edit.vue"
-import { getAllBookClassApi } from "@/api/book_class"
-import { type GetTableData as GetClassTableData } from "@/api/book_class/types/book_class"
+// import { getAllBookClassApi } from "@/api/book_class"
+// import { type GetTableData as GetClassTableData } from "@/api/book_class/types/book_class"
+import { getToken } from "@/utils/cache/cookies"
+import type { UploadProps } from "element-plus"
 
 defineOptions({
   // 命名当前组件
@@ -93,15 +95,46 @@ const resetSearch = () => {
   searchFormRef.value?.resetFields()
   handleSearch()
 }
-const classDate = ref<GetClassTableData[]>([])
-const getAllClass = () => {
-  getAllBookClassApi().then(({ data }) => {
-    classDate.value = data
-  })
-}
-getAllClass()
+// const classDate = ref<GetClassTableData[]>([])
+// const getAllClass = () => {
+//   getAllBookClassApi().then(({ data }) => {
+//     classDate.value = data
+//   })
+// }
+// getAllClass()
 //#endregion
+const actionURL = ref(`${import.meta.env.VITE_BASE_API}/upload/importExcel`)
+const token = getToken()
+const headers = ref({
+  Authorization: token ? `Bearer ${token}` : undefined
+})
 
+const handleBeforeUpload = () => {
+  // 设置上传loading状态
+  loading.value = true
+  // 这里简单返回true继续上传
+  return true
+}
+
+const handleSuccess: UploadProps["onSuccess"] = (response) => {
+  loading.value = false
+  if (response.code !== 200) {
+    ElMessageBox.alert(response.message, "提示", {
+      type: "error",
+      showClose: false,
+      confirmButtonText: "我知道了"
+    })
+  } else {
+    getTableData()
+    ElMessage({
+      message: "批量导入成功",
+      type: "success"
+    })
+  }
+}
+//#region 批量导入
+
+//#endregion
 /** 监听分页参数的变化 */
 watch([() => paginationData.currentPage, () => paginationData.pageSize], getTableData, { immediate: true })
 </script>
@@ -140,8 +173,22 @@ watch([() => paginationData.currentPage, () => paginationData.pageSize], getTabl
     </el-card>
     <el-card v-loading="loading" shadow="never">
       <div class="toolbar-wrapper">
-        <div>
-          <el-button type="primary" :icon="CirclePlus" @click="addBook">添加新书</el-button>
+        <div class="box-btn">
+          <div>
+            <el-button type="primary" :icon="CirclePlus" @click="addBook">添加新书</el-button>
+          </div>
+          <div style="margin-left: 20px" v-permission="['admin']">
+            <el-upload
+              :action="actionURL"
+              :show-file-list="false"
+              :headers="headers"
+              :on-success="handleSuccess"
+              :before-upload="handleBeforeUpload"
+              accept=".xls,.xlsx"
+            >
+              <el-button type="primary" :icon="UploadFilled">批量导入</el-button>
+            </el-upload>
+          </div>
         </div>
         <div>
           <el-tooltip content="刷新当前页">
@@ -209,6 +256,9 @@ watch([() => paginationData.currentPage, () => paginationData.pageSize], getTabl
   display: flex;
   justify-content: space-between;
   margin-bottom: 20px;
+}
+.box-btn {
+  display: flex;
 }
 
 .table-wrapper {
