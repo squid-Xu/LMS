@@ -10,7 +10,7 @@ export function createBookClassApi(data: bookClass.CreateOrUpdateTableRequestDat
 }
 
 /** 删 */
-export function deleteBookClassApi(id: string) {
+export function deleteBookClassApi(id: number) {
   return request({
     url: `/class_info/delete/${id}`,
     method: "delete"

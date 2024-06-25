@@ -7,33 +7,41 @@
   >
     <template #default>
       <el-form ref="formRef" :model="formData" :disabled="isDetail" :rules="formRules" label-width="100px">
-        <el-form-item prop="book_name" label="图书名称">
-          <el-input v-model="formData.book_name" maxlength="30" show-word-limit placeholder="请输入" />
-        </el-form-item>
-        <el-form-item prop="author" label="图书作者">
-          <el-input v-model="formData.author" maxlength="30" show-word-limit placeholder="请输入" />
-        </el-form-item>
-        <el-form-item prop="publish" label="图书出版社">
-          <el-input v-model="formData.publish" maxlength="50" show-word-limit placeholder="请输入" />
-        </el-form-item>
         <el-form-item prop="ISBN" label="图书ISBN">
           <el-input v-model="formData.ISBN" maxlength="20" show-word-limit placeholder="请输入" />
         </el-form-item>
-        <el-form-item prop="price" label="图书价格">
-          <el-input-number v-model="formData.price" :precision="2" :min="0" :max="10000" />
+        <el-form-item prop="book_name" label="图书名称">
+          <el-input
+            v-model="formData.book_name"
+            type="textarea"
+            resize="none"
+            :autosize="{ minRows: 2, maxRows: 6 }"
+            maxlength="100"
+            show-word-limit
+            placeholder="请输入"
+          />
+        </el-form-item>
+        <el-form-item prop="author" label="图书作者">
+          <el-input v-model="formData.author" maxlength="50" show-word-limit placeholder="请输入" />
+        </el-form-item>
+        <el-form-item prop="publish" label="图书出版社">
+          <el-input v-model="formData.publish" maxlength="50" show-word-limit placeholder="请输入" />
         </el-form-item>
         <el-form-item prop="class_id" label="图书分类">
           <el-select v-model="formData.class_id" placeholder="请选择">
             <el-option v-for="item in classDate" :key="item.class_id" :label="item.class_name" :value="item.class_id" />
           </el-select>
         </el-form-item>
+        <el-form-item prop="price" label="图书价格">
+          <el-input-number v-model="formData.price" :precision="2" :min="0" :max="10000" />
+        </el-form-item>
         <el-form-item prop="number" label="图书数量">
           <el-input-number v-model="formData.number" :min="0" :max="10000" placeholder="请输入" />
         </el-form-item>
-        <el-form-item prop="language" label="图书语言">
+        <!-- <el-form-item prop="language" label="图书语言">
           <el-input v-model="formData.language" maxlength="10" show-word-limit placeholder="请输入" />
-        </el-form-item>
-        <el-form-item prop="pub_date" label="图书出版时间">
+        </el-form-item> -->
+        <!-- <el-form-item prop="pub_date" label="图书出版时间">
           <el-date-picker
             style="width: 100%"
             v-model="formData.pub_date"
@@ -41,7 +49,7 @@
             value-format="YYYY-MM-DD"
             placeholder="请选择"
           />
-        </el-form-item>
+        </el-form-item> -->
         <el-form-item prop="introduction" label="图书介绍">
           <el-input
             type="textarea"
@@ -92,7 +100,7 @@ const DEFAULT_FORM_DATA: CreateOrUpdateTableRequestData = {
   language: "",
   price: 0,
   pub_date: "",
-  class_id: "",
+  class_id: 1,
   number: 0
 }
 

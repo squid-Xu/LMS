@@ -19,7 +19,16 @@
             <el-radio :value="2">女</el-radio>
           </el-radio-group>
         </el-form-item>
-        <el-form-item prop="birth" label="生日">
+        <el-form-item prop="expire" label="会员到期时间">
+          <el-date-picker
+            style="width: 100%"
+            v-model="formData.expire"
+            type="date"
+            value-format="YYYY-MM-DD"
+            placeholder="请选择"
+          />
+        </el-form-item>
+        <!-- <el-form-item prop="birth" label="生日">
           <el-date-picker
             v-model="formData.birth"
             style="width: 100%"
@@ -27,7 +36,7 @@
             value-format="YYYY-MM-DD"
             placeholder="请选择"
           />
-        </el-form-item>
+        </el-form-item> -->
         <el-form-item prop="address" label="家庭住址">
           <el-input
             v-model="formData.address"
@@ -37,15 +46,6 @@
             maxlength="50"
             show-word-limit
             placeholder="请输入"
-          />
-        </el-form-item>
-        <el-form-item prop="expire" label="会员到期日期">
-          <el-date-picker
-            style="width: 100%"
-            v-model="formData.expire"
-            type="date"
-            value-format="YYYY-MM-DD"
-            placeholder="请选择"
           />
         </el-form-item>
       </el-form>
@@ -91,7 +91,7 @@ const formRules: FormRules<CreateOrUpdateTableRequestData> = {
     }
   ],
   sex: [{ required: true, trigger: "blur", message: "请选择性别" }],
-  expire: [{ required: true, trigger: "blur", message: "请选择会员到期日期" }]
+  expire: [{ required: true, trigger: "blur", message: "请选择会员到期时间" }]
 }
 
 const formRef = ref<FormInstance | null>(null)

@@ -10,7 +10,7 @@ export function createBookManagementApi(data: bookManagement.CreateOrUpdateTable
 }
 
 /** 删 */
-export function deleteBookManagementApi(id: string) {
+export function deleteBookManagementApi(id: number) {
   return request({
     url: `/book_info/delete/${id}`,
     method: "delete"

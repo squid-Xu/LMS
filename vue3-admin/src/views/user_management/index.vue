@@ -151,7 +151,7 @@ watch([() => paginationData.currentPage, () => paginationData.pageSize], getTabl
               <el-tag v-else type="danger" effect="plain">女</el-tag>
             </template>
           </el-table-column>
-          <el-table-column prop="expire" label="会员到期日期" width="150" />
+          <el-table-column prop="expire" label="会员到期时间" width="150" />
           <el-table-column prop="expire" label="会员状态" width="150">
             <template #default="scope">
               <el-tag v-if="remainingDays(scope.row.expire) >= 0" type="success" effect="dark">

@@ -8,7 +8,7 @@ export interface CreateOrUpdateTableRequestData {
   language: string
   price: number
   pub_date: string
-  class_id: string
+  class_id: number
   number: number
 }
 
@@ -39,7 +39,7 @@ export interface GetTableData {
   language: string
   price: number
   pub_date: string
-  class_id: string
+  class_id: number
   number: number
   create_time: string
   update_time: string

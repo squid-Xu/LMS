@@ -10,7 +10,7 @@ import { formatDateTime } from "@/utils"
 
 defineOptions({
   // 命名当前组件
-  name: "ElementPlus"
+  name: "book_class"
 })
 
 const loading = ref<boolean>(false)
@@ -136,7 +136,7 @@ watch([() => paginationData.currentPage, () => paginationData.pageSize], getTabl
       </div>
       <div class="table-wrapper">
         <el-table :data="tableData">
-          <el-table-column prop="class_name" label="用户名" />
+          <el-table-column prop="class_name" label="分类名称" />
           <el-table-column prop="sort" label="排序" />
           <el-table-column prop="create_time" label="创建时间">
             <template #default="scope">
@@ -151,7 +151,14 @@ watch([() => paginationData.currentPage, () => paginationData.pageSize], getTabl
           <el-table-column fixed="right" label="操作" width="150" align="center">
             <template #default="scope">
               <el-button type="primary" text bg size="small" @click="handleUpdate(scope.row)">修改</el-button>
-              <el-button type="danger" v-permission="['admin']" text bg size="small" @click="handleDelete(scope.row)"
+              <el-button
+                type="danger"
+                v-if="scope.row.class_id !== 1"
+                v-permission="['admin']"
+                text
+                bg
+                size="small"
+                @click="handleDelete(scope.row)"
                 >删除</el-button
               >
             </template>

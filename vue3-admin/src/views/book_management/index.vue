@@ -110,8 +110,11 @@ watch([() => paginationData.currentPage, () => paginationData.pageSize], getTabl
   <div class="app-container">
     <el-card v-loading="loading" shadow="never" class="search-wrapper">
       <el-form ref="searchFormRef" :inline="true" :model="searchData">
-        <el-form-item prop="book_name" label="图书名称">
+        <el-form-item prop="book_name" label="名称">
           <el-input v-model="searchData.book_name" placeholder="请输入" />
+        </el-form-item>
+        <el-form-item prop="ISBN" label="ISBN">
+          <el-input v-model="searchData.ISBN" placeholder="请输入" />
         </el-form-item>
         <el-form-item prop="author" label="作者">
           <el-input v-model="searchData.author" placeholder="请输入" />
@@ -119,7 +122,7 @@ watch([() => paginationData.currentPage, () => paginationData.pageSize], getTabl
         <el-form-item prop="publish" label="出版社">
           <el-input v-model="searchData.publish" placeholder="请输入" />
         </el-form-item>
-        <el-form-item prop="class_name" label="分类">
+        <!-- <el-form-item prop="class_name" label="分类">
           <el-select v-model="searchData.class_name" style="width: 220px" clearable placeholder="请选择">
             <el-option
               v-for="item in classDate"
@@ -128,10 +131,7 @@ watch([() => paginationData.currentPage, () => paginationData.pageSize], getTabl
               :value="item.class_name"
             />
           </el-select>
-        </el-form-item>
-        <el-form-item prop="ISBN" label="ISBN">
-          <el-input v-model="searchData.ISBN" placeholder="请输入" />
-        </el-form-item>
+        </el-form-item> -->
         <el-form-item>
           <el-button type="primary" :icon="Search" @click="handleSearch">查询</el-button>
           <el-button :icon="Refresh" @click="resetSearch">重置</el-button>
@@ -152,10 +152,10 @@ watch([() => paginationData.currentPage, () => paginationData.pageSize], getTabl
       <div class="table-wrapper">
         <el-table :data="tableData">
           <el-table-column prop="book_name" fixed label="名称" show-overflow-tooltip width="250" />
+          <el-table-column prop="ISBN" label="ISBN" show-overflow-tooltip width="200" />
           <el-table-column prop="author" label="作者" show-overflow-tooltip width="250" />
           <el-table-column prop="publish" label="出版社" show-overflow-tooltip width="250" />
           <el-table-column prop="class_name" label="分类" show-overflow-tooltip width="250" />
-          <el-table-column prop="ISBN" label="ISBN" width="200" />
           <el-table-column prop="price" label="价格" width="150" />
           <el-table-column prop="number" label="数量" width="150" />
           <el-table-column prop="create_time" label="创建时间" min-width="200">

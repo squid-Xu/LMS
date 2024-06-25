@@ -218,7 +218,7 @@ const queryCommontPieApi = () => {
           type: "pie",
           radius: "50%",
           data: [
-            { value: pieTotal.value.reader_total, name: "会员量", itemStyle: { color: "#1e90ff" } },
+            { value: pieTotal.value.reader_total, name: "会员总量", itemStyle: { color: "#1e90ff" } },
             { value: pieTotal.value.was_due_total, name: "已到期", itemStyle: { color: "#ff4500" } }
           ],
           emphasis: {
@@ -255,7 +255,7 @@ const queryCommontPieApi = () => {
           type: "pie",
           radius: "50%",
           data: [
-            { value: pieTotal.value.lend_total, name: "借阅量" },
+            { value: pieTotal.value.lend_total, name: "借阅总量" },
             { value: pieTotal.value.no_return_total, name: "未归还", itemStyle: { color: "#ff4500" } }
           ],
           emphasis: {

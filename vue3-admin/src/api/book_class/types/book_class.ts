@@ -14,7 +14,7 @@ export interface GetTableRequestData {
 }
 
 export interface GetTableData {
-  class_id: string
+  class_id: number
   class_name: string
   sort: number
   create_time: string

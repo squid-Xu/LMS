@@ -3,7 +3,7 @@ const { Service } = require('egg');
 class bookInfoService extends Service {
   // 添加
   async save(data) {
-    const accountInfo = await this.app.mysql.get('book_info', { book_name: data.book_name });
+    const accountInfo = await this.app.mysql.get('book_info', { ISBN: data.ISBN });
     if (accountInfo) {
       this.ctx.sendError('图书已存在');
       return false;
@@ -18,7 +18,7 @@ class bookInfoService extends Service {
   // 编辑
   async edit(data) {
     const accountInfo = await this.app.mysql.query(
-      `select * from book_info where book_name = "${data.book_name}" AND book_id != ${data.book_id}`);
+      `select * from book_info where ISBN = "${data.ISBN}" AND book_id != ${data.book_id}`);
     if (accountInfo.length !== 0) {
       this.ctx.sendError('图书已存在');
       return false;
