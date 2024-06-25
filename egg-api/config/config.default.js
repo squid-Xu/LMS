@@ -49,6 +49,12 @@ module.exports = appInfo => {
       enable: false,
     },
   };
+  // 上传文件
+  config.multipart = {
+    fileSize: '5mb',
+    mode: 'file',
+    fileExtensions: [ '.xlsx', '.xls' ],
+  };
 
   // add your user config here
   const userConfig = {

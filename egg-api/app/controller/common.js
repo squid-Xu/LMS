@@ -13,6 +13,12 @@ class CommonController extends Controller {
     const res = await ctx.service.common.echarts();
     ctx.sendSuccess(res);
   }
+  // 饼状图
+  async pie() {
+    const { ctx } = this;
+    const res = await ctx.service.common.pie();
+    ctx.sendSuccess(res);
+  }
 }
 
 module.exports = CommonController;

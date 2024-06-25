@@ -47,4 +47,8 @@ module.exports = app => {
   // 统计
   router.get('/common/statistics', controller.common.statistics);
   router.get('/common/echarts', controller.common.echarts);
+  router.get('/common/pie', controller.common.pie);
+
+  // 上传
+  router.post('/upload/importExcel', controller.upload.importExcel);
 };

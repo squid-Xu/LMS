@@ -15,3 +15,11 @@ export function getCommontEchartsApi() {
     method: "get"
   })
 }
+
+// 饼状图
+export function getCommontPieApi() {
+  return request({
+    url: "/common/pie",
+    method: "get"
+  })
+}
