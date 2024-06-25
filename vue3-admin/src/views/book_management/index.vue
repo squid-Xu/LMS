@@ -11,6 +11,7 @@ import AddEdit from "./add_edit.vue"
 // import { type GetTableData as GetClassTableData } from "@/api/book_class/types/book_class"
 import { getToken } from "@/utils/cache/cookies"
 import type { UploadProps } from "element-plus"
+import { ElLoading } from "element-plus"
 
 defineOptions({
   // 命名当前组件
@@ -109,15 +110,20 @@ const headers = ref({
   Authorization: token ? `Bearer ${token}` : undefined
 })
 
+const uploadLoading = ref({ close: () => {} })
 const handleBeforeUpload = () => {
   // 设置上传loading状态
-  loading.value = true
+  uploadLoading.value = ElLoading.service({
+    lock: true,
+    text: "导入中",
+    background: "rgba(255, 255, 255, .7)"
+  })
   // 这里简单返回true继续上传
   return true
 }
 
 const handleSuccess: UploadProps["onSuccess"] = (response) => {
-  loading.value = false
+  uploadLoading.value.close()
   if (response.code !== 200) {
     ElMessageBox.alert(response.message, "提示", {
       type: "error",
