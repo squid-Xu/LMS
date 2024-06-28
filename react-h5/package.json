@@ -10,11 +10,8 @@
     "preview": "vite preview"
   },
   "dependencies": {
-<<<<<<< HEAD
     "path": "^0.12.7",
-=======
     "antd-mobile": "^5.36.1",
->>>>>>> eb035eacb0a5367780460e40d4737296ef45b3e4
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-router-dom": "^6.24.0"
