@@ -13,6 +13,11 @@ const listClass = {
   pageSize: 'string',
   pageNum: 'string',
 };
+const selfListClass = {
+  pageSize: 'string',
+  pageNum: 'string',
+  phone: 'string',
+};
 
 
 class lendListController extends Controller {
@@ -45,6 +50,13 @@ class lendListController extends Controller {
     const { ctx } = this;
     ctx.validate(listClass, ctx.request.query);
     const res = await ctx.service.lendList.list(ctx.request.query);
+    ctx.sendSuccess(res);
+  }
+  // 查询自己的借阅记录
+  async selfList() {
+    const { ctx } = this;
+    ctx.validate(selfListClass, ctx.request.query);
+    const res = await ctx.service.lendList.selfList(ctx.request.query);
     ctx.sendSuccess(res);
   }
 }

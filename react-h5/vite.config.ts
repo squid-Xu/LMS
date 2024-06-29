@@ -8,6 +8,15 @@ export default defineConfig({
 	server: {
 		port: 3000,
 		host: '0.0.0.0',
+		/** 接口代理 */
+		proxy: {
+			'/lsm-api/v1': {
+				target: 'http://127.0.0.1:7001',
+				ws: true,
+				/** 是否允许跨域 */
+				changeOrigin: true,
+			},
+		},
 	},
 	resolve: {
 		alias: {

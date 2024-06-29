@@ -62,6 +62,28 @@ class lendListService extends Service {
       ${where}`); // 数量
     return { list, total: total[0].count };
   }
+  // 获取列表
+  async selfList(data) {
+    const list = await this.app.mysql.query(`
+        select lend_list.*, 
+        reader_info.name as name, 
+        reader_info.phone as phone, 
+        book_info.book_name as book_name, 
+        book_info.ISBN as ISBN 
+        from lend_list 
+        join reader_info on lend_list.reader_id = reader_info.reader_id 
+        join book_info on lend_list.book_id = book_info.book_id 
+        where phone = ${data.phone}
+        order by lend_date desc 
+        limit ${(data.pageNum - 1) * data.pageSize},${data.pageSize}`);
+    const total = await this.app.mysql.query(`
+        select count(*) as count 
+        from lend_list 
+        join reader_info on lend_list.reader_id = reader_info.reader_id 
+        join book_info on lend_list.book_id = book_info.book_id 
+        where phone = ${data.phone}`); // 数量
+    return { list, total: total[0].count };
+  }
 }
 
 module.exports = lendListService;

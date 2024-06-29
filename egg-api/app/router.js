@@ -51,4 +51,7 @@ module.exports = app => {
 
   // 上传
   router.post('/upload/importExcel', controller.upload.importExcel);
+
+  // 移动端查询
+  router.get('/app/lend_list/selfList', controller.lendList.selfList);
 };
