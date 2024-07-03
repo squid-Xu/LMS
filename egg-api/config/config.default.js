@@ -56,6 +56,20 @@ module.exports = appInfo => {
     fileExtensions: [ '.xlsx', '.xls' ],
   };
 
+  config.cluster = {
+    listen: {
+      port: 7001,
+      hostname: '127.0.0.1', // 不建议设置为 '0.0.0.0'，可能导致外部连接风险，请了解后使用
+      // path: '/var/run/egg.sock',
+    },
+  };
+
+  config.alinode = {
+    // 从 `Node.js 性能平台` 获取对应的接入参数
+    appid: '93723',
+    secret: 'a441f6beddc3354ac5f27e29f2842c5f492606ee',
+  };
+
   // add your user config here
   const userConfig = {
     // myAppName: 'egg',
