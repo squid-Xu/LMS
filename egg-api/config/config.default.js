@@ -64,11 +64,11 @@ module.exports = appInfo => {
     },
   };
 
-  config.alinode = {
-    // 从 `Node.js 性能平台` 获取对应的接入参数
-    appid: '93723',
-    secret: 'a441f6beddc3354ac5f27e29f2842c5f492606ee',
-  };
+  // config.alinode = {
+  //   // 从 `Node.js 性能平台` 获取对应的接入参数
+  //   appid: '93723',
+  //   secret: 'a441f6beddc3354ac5f27e29f2842c5f492606ee',
+  // };
 
   // add your user config here
   const userConfig = {
