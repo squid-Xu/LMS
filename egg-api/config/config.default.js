@@ -59,7 +59,7 @@ module.exports = appInfo => {
   config.cluster = {
     listen: {
       port: 7001,
-      hostname: '127.0.0.1', // 不建议设置为 '0.0.0.0'，可能导致外部连接风险，请了解后使用
+      hostname: '0.0.0.0', // 不建议设置为 '0.0.0.0'，可能导致外部连接风险，请了解后使用
       // path: '/var/run/egg.sock',
     },
   };
