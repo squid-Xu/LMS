@@ -59,17 +59,9 @@ module.exports = appInfo => {
   config.cluster = {
     listen: {
       port: 7001,
-      hostname: '0.0.0.0', // 不建议设置为 '0.0.0.0'，可能导致外部连接风险，请了解后使用
+      hostname: '127.0.0.1', // 不建议设置为 '0.0.0.0'，可能导致外部连接风险，请了解后使用
       // path: '/var/run/egg.sock',
     },
-  };
-  config.cors = {
-    // 匹配规则  域名+端口  *则为全匹配
-    // origin: 'http://localhost:8080',
-    origin: '*',
-
-    // 匹配请求方式
-    allowMethods: 'GET,HEAD,PUT,POST,DELETE,PATCH',
   };
 
   // config.alinode = {
