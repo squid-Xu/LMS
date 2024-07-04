@@ -33,7 +33,7 @@ module.exports = appInfo => {
   };
   // 鉴权
   config.jwt = {
-    secret: 'sdsddddsdsds',
+    secret: 'wentanshudianABC',
     sign: {
       // 多少时间后到期。以秒表示或描述时间跨度zeit / ms的字符串。如60，“2 days”，“10h”，“7d”，Expiration time，过期时间
       expiresIn: '1 days', // 多少s后过期。actionToken.js中,jwt.sing(plyload,secret,{expiresIn:number})会被合并，调用时设置优先级更高;
