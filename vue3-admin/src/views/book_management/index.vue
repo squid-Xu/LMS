@@ -128,7 +128,10 @@ const handleSuccess: UploadProps["onSuccess"] = (response) => {
     ElMessageBox.alert(response.message, "提示", {
       type: "error",
       showClose: false,
-      confirmButtonText: "我知道了"
+      confirmButtonText: "我知道了",
+      callback: () => {
+        getTableData()
+      }
     })
   } else {
     getTableData()

@@ -25,7 +25,6 @@ module.exports = () => {
   };
   config.cors = {
     // 匹配规则  域名+端口  *则为全匹配
-    // origin: 'http://47.120.33.36:7000',
     origin: '*',
 
     // 匹配请求方式

@@ -1,13 +1,11 @@
-import './index.less';
-import { SearchBar } from 'antd-mobile';
-import { InfiniteScroll, List } from 'antd-mobile';
-import { lend_self_list } from '@/api/lend_list';
 import { useState } from 'react';
+import { SearchBar, Footer, ErrorBlock } from 'antd-mobile';
+import { lend_self_list } from '@/api/lend_list';
 import type { listType } from './type';
+import './index.less';
 
 function Home() {
 	const [list, setList] = useState<listType[]>([]);
-	const [val, setVal] = useState<string>('');
 	/**
 	 * 点击清除按钮
 	 */
@@ -19,10 +17,9 @@ function Home() {
 	 * @param val
 	 */
 	function onSearch(val: string) {
-		setVal(val);
 		lend_self_list({
 			pageNum: 1,
-			pageSize: 10,
+			pageSize: 100,
 			phone: val,
 		})
 			.then(res => {
@@ -33,33 +30,31 @@ function Home() {
 			});
 	}
 
-	const [hasMore, setHasMore] = useState(true);
-	async function loadMore() {
-		if (!val) return;
-		const res = await lend_self_list({
-			pageNum: 1,
-			pageSize: 10,
-			phone: val,
-		});
-		setList(res.data.list);
-		setHasMore(res.data.list.length > 0);
-	}
-
 	return (
 		<div className="container">
-			<SearchBar placeholder="请输入手机号查询" onClear={onClear} onSearch={onSearch} />
-			{/* <ul>
+			<SearchBar placeholder="请输入手机号查询" maxLength={11} onClear={onClear} onSearch={onSearch} />
+			<div className="list">
 				{list.map(v => (
-					<li key={v.ser_num}>{v.phone}</li>
+					<div className="item" key={v.ser_num}>
+						<div className="nav-top">
+							<div className="date">{v.lend_date}</div>
+							<div
+								className="type"
+								style={{
+									color: v.status === 1 ? '#FF9C00' : '#999999',
+								}}
+							>
+								{v.status === 1 ? '未归还' : '已归还'}
+							</div>
+						</div>
+						<div className="shop-name">{v.book_name}</div>
+					</div>
 				))}
-			</ul> */}
+			</div>
 
-			<List>
-				{list.map(v => (
-					<List.Item key={v.ser_num}>{v.book_name}</List.Item>
-				))}
-			</List>
-			<InfiniteScroll loadMore={loadMore} hasMore={hasMore} />
+			{list.length === 0 && <ErrorBlock fullPage description="换个手机号试试~~" status="empty" />}
+
+			{list.length > 0 && <Footer label="没有更多了" />}
 		</div>
 	);
 }
