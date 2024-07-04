@@ -63,6 +63,14 @@ module.exports = appInfo => {
       // path: '/var/run/egg.sock',
     },
   };
+  config.cors = {
+    // 匹配规则  域名+端口  *则为全匹配
+    // origin: 'http://localhost:8080',
+    origin: '*',
+
+    // 匹配请求方式
+    allowMethods: 'GET,HEAD,PUT,POST,DELETE,PATCH',
+  };
 
   // config.alinode = {
   //   // 从 `Node.js 性能平台` 获取对应的接入参数
